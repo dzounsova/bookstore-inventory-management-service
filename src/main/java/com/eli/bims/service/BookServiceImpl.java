@@ -8,6 +8,7 @@ import com.eli.bims.exception.BookNotFoundException;
 import com.eli.bims.repository.BookRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,6 +46,11 @@ public class BookServiceImpl implements BookService {
     public void update(final UpdateBookRequest updateBookRequest) {
         log.info("Updating book, id={}", updateBookRequest.getId());
         Book bookFromDB = findById(updateBookRequest.getId());
+
+        if (updateBookRequest.getVersion() != bookFromDB.getVersion()) {
+            throw new ObjectOptimisticLockingFailureException(Book.class, bookFromDB.getId());
+        }
+
         modelMapper.map(updateBookRequest, bookFromDB);
         bookRepository.save(bookFromDB);
         log.info("Updated book: {}", bookFromDB);

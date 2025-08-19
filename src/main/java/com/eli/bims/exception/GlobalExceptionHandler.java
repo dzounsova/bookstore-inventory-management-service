@@ -2,6 +2,7 @@ package com.eli.bims.exception;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -21,8 +22,13 @@ public class GlobalExceptionHandler {
         return handleException(ex, HttpStatus.BAD_REQUEST, ex.getMessage());
     }
 
+    @ExceptionHandler(ObjectOptimisticLockingFailureException.class)
+    public ErrorResponse handleObjectOptimisticLockingFailureException(final ObjectOptimisticLockingFailureException ex) {
+        return handleException(ex, HttpStatus.CONFLICT, "Book has been updated by another user");
+    }
+
     @ExceptionHandler(Exception.class)
-    public ErrorResponse handleGenericException(Exception ex) {
+    public ErrorResponse handleGenericException(final Exception ex) {
         return handleException(ex, HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error");
     }
 

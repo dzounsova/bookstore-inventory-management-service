@@ -13,11 +13,11 @@ public class UpdateBookRequest {
     @NotNull
     private Long id;
 
-    @NotNull
     private String title;
 
     private String description;
 
+    @Positive
     private Integer pageCount;
 
     private String imageUrl;
@@ -27,4 +27,7 @@ public class UpdateBookRequest {
 
     @PositiveOrZero
     private Integer quantity;
+
+    @NotNull
+    private long version;
 }

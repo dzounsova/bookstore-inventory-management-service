@@ -51,7 +51,8 @@ public class ModelMapperConfig {
 
         mapper.getConfiguration()
                 .setMatchingStrategy(org.modelmapper.convention.MatchingStrategies.STRICT)
-                .setAmbiguityIgnored(true);
+                .setAmbiguityIgnored(true)
+                .setSkipNullEnabled(true);
 
         mapper.createTypeMap(CreateBookRequest.class, Book.class)
                 .addMappings(m -> {

@@ -52,6 +52,7 @@ CREATE TABLE book
     published_date DATE    NOT NULL,
     publisher_id   BIGINT  NOT NULL REFERENCES publisher (id) ON DELETE CASCADE,
     genre_id       BIGINT  NOT NULL REFERENCES genre (id) ON DELETE CASCADE,
+    version        BIGINT  NOT NULL,
     CONSTRAINT chk_price CHECK (price >= 0),
     CONSTRAINT chk_quantity CHECK (quantity >= 0)
 );
