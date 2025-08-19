@@ -52,7 +52,6 @@ public class BookServiceImpl implements BookService {
         }
 
         modelMapper.map(updateBookRequest, bookFromDB);
-        bookRepository.save(bookFromDB);
         log.info("Updated book: {}", bookFromDB);
     }
 

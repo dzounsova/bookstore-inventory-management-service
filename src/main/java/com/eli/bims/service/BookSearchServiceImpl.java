@@ -23,12 +23,12 @@ import java.util.List;
 @Service
 public class BookSearchServiceImpl implements BookSearchService {
 
-    private final BookRepository bookRepository;
     private final ModelMapper modelMapper;
+    private final BookRepository bookRepository;
 
-    public BookSearchServiceImpl(final BookRepository bookRepository, final ModelMapper modelMapper) {
-        this.bookRepository = bookRepository;
+    public BookSearchServiceImpl(final ModelMapper modelMapper, final BookRepository bookRepository) {
         this.modelMapper = modelMapper;
+        this.bookRepository = bookRepository;
     }
 
     @Override
@@ -52,7 +52,9 @@ public class BookSearchServiceImpl implements BookSearchService {
 
     private Specification<Book> distinct() {
         return (root, query, cb) -> {
-            query.distinct(true);
+            if (query != null) {
+                query.distinct(true);
+            }
             return null;
         };
     }
