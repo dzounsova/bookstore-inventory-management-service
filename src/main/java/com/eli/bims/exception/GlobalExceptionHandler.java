@@ -3,6 +3,7 @@ package com.eli.bims.exception;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -25,6 +26,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ObjectOptimisticLockingFailureException.class)
     public ErrorResponse handleObjectOptimisticLockingFailureException(final ObjectOptimisticLockingFailureException ex) {
         return handleException(ex, HttpStatus.CONFLICT, "Book has been updated by another user");
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ErrorResponse handleAccessDeniedException(final AccessDeniedException ex) {
+        return handleException(ex, HttpStatus.FORBIDDEN, "Access Denied");
     }
 
     @ExceptionHandler(Exception.class)
