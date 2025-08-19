@@ -2,6 +2,7 @@ package com.eli.bims.dao;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.BatchSize;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -53,6 +54,7 @@ public class Book {
             joinColumns = {@JoinColumn(name = "book_id")},
             inverseJoinColumns = {@JoinColumn(name = "author_id")}
     )
+    @BatchSize(size = 10)
     private List<Author> authors;
 
     @Version

@@ -6,6 +6,7 @@ CREATE TABLE genre
     name        TEXT   NOT NULL UNIQUE,
     description TEXT
 );
+CREATE INDEX idx_genre_name_lower ON genre (lower(name));
 
 -- create author table
 CREATE SEQUENCE author_id_seq INCREMENT 1 START 1;
@@ -20,10 +21,11 @@ CREATE TABLE author
     viaf              TEXT,
     image_url         TEXT,
     description       TEXT,
-    CONSTRAINT chk_external_id CHECK (isni IS NOT NULL OR viaf IS NOT NULL)
+    CONSTRAINT chk_author_external_id CHECK (isni IS NOT NULL OR viaf IS NOT NULL)
 );
-CREATE UNIQUE INDEX idx_isni ON author (isni) WHERE isni IS NOT NULL;
-CREATE UNIQUE INDEX idx_viaf ON author (viaf) WHERE viaf IS NOT NULL;
+CREATE UNIQUE INDEX idx_author_isni ON author (isni) WHERE isni IS NOT NULL;
+CREATE UNIQUE INDEX idx_author_viaf ON author (viaf) WHERE viaf IS NOT NULL;
+CREATE INDEX idx_author_display_name_lower ON author (lower(display_name));
 
 -- create publisher table
 CREATE SEQUENCE publisher_id_seq INCREMENT 1 START 1;
@@ -33,6 +35,7 @@ CREATE TABLE publisher
     name        TEXT   NOT NULL UNIQUE,
     description TEXT
 );
+CREATE INDEX idx_publisher_name_lower ON publisher (lower(name));
 
 -- create book table
 CREATE SEQUENCE book_id_seq INCREMENT 1 START 1;
@@ -53,11 +56,12 @@ CREATE TABLE book
     publisher_id   BIGINT  NOT NULL REFERENCES publisher (id) ON DELETE CASCADE,
     genre_id       BIGINT  NOT NULL REFERENCES genre (id) ON DELETE CASCADE,
     version        BIGINT  NOT NULL,
-    CONSTRAINT chk_price CHECK (price >= 0),
-    CONSTRAINT chk_quantity CHECK (quantity >= 0)
+    CONSTRAINT chk_book_price CHECK (price >= 0),
+    CONSTRAINT chk_book_quantity CHECK (quantity >= 0)
 );
-CREATE INDEX idx_publisher_id ON book (publisher_id);
-CREATE INDEX idx_genre_id ON book (genre_id);
+CREATE INDEX idx_book_publisher_id ON book (publisher_id);
+CREATE INDEX idx_book_genre_id ON book (genre_id);
+CREATE INDEX idx_book_title_lower ON book (lower(title));
 
 -- create relationship table between book and author
 CREATE TABLE book_author
@@ -66,3 +70,5 @@ CREATE TABLE book_author
     author_id BIGINT NOT NULL REFERENCES author (id) ON DELETE CASCADE,
     PRIMARY KEY (book_id, author_id)
 );
+CREATE INDEX idx_book_author_book_id ON book_author (book_id);
+CREATE INDEX idx_book_author_author_id ON book_author (author_id);

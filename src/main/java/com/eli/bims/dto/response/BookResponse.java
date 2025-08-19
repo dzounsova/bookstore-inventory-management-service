@@ -1,13 +1,19 @@
 package com.eli.bims.dto.response;
 
 import com.eli.bims.dao.BookFormat;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Locale;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class BookResponse {
 

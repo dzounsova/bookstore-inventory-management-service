@@ -20,6 +20,8 @@ public class Author {
 
     private String lastName;
 
+    private String displayName;
+
     private String isni;
 
     private String viaf;
