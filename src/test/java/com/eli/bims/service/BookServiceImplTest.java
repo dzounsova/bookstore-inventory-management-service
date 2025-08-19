@@ -27,8 +27,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class BookServiceImplTest {
@@ -104,9 +103,7 @@ public class BookServiceImplTest {
         existing.setVersion(1L);
 
         when(bookRepository.findById(bookId)).thenReturn(Optional.of(existing));
-        when(bookRepository.save(any(Book.class))).thenAnswer(inv -> inv.getArgument(0));
 
-        ArgumentCaptor<Book> captor = ArgumentCaptor.forClass(Book.class);
         UpdateBookRequest request = new UpdateBookRequest();
         request.setId(bookId);
         request.setTitle("New Title");
@@ -114,10 +111,9 @@ public class BookServiceImplTest {
 
         bookService.update(request);
 
-        verify(bookRepository).save(captor.capture());
-        Book bookToUpdate = captor.getValue();
-        assertThat(bookToUpdate.getTitle()).isEqualTo("New Title");
-        assertThat(bookToUpdate.getPrice()).isEqualTo(BigDecimal.valueOf(99.99));
+        verify(bookRepository, never()).save(any(Book.class));
+        assertThat(existing.getTitle()).isEqualTo("New Title");
+        assertThat(existing.getPrice()).isEqualTo(BigDecimal.valueOf(99.99));
     }
 
     @Test

@@ -81,7 +81,7 @@ public class BookServiceImplIntegrationTest extends TestBase {
         Book book = new Book();
         book.setTitle("Songs of Ice and Fire");
         book.setIsbn("1234");
-        book.setDescription("A updatedBook about the heroes of Ice and Fire");
+        book.setDescription("A book about the heroes of Ice and Fire");
         book.setEdition(2);
         book.setFormat(BookFormat.HARDCOVER);
         book.setPageCount(100);
