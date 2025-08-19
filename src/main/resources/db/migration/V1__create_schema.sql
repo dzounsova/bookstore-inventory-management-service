@@ -11,13 +11,15 @@ CREATE TABLE genre
 CREATE SEQUENCE author_id_seq INCREMENT 1 START 1;
 CREATE TABLE author
 (
-    id          BIGINT NOT NULL PRIMARY KEY DEFAULT nextval('author_id_seq'),
-    firstName   TEXT   NOT NULL,
-    lastName    TEXT   NOT NULL,
-    isni        TEXT,
-    viaf        TEXT,
-    image_url   TEXT,
-    description TEXT,
+    id                BIGINT NOT NULL PRIMARY KEY DEFAULT nextval('author_id_seq'),
+    first_name        TEXT   NOT NULL,
+    last_name         TEXT   NOT NULL,
+    display_name      TEXT,
+    display_name_auto BOOLEAN                     DEFAULT TRUE,
+    isni              TEXT,
+    viaf              TEXT,
+    image_url         TEXT,
+    description       TEXT,
     CONSTRAINT chk_external_id CHECK (isni IS NOT NULL OR viaf IS NOT NULL)
 );
 CREATE UNIQUE INDEX idx_isni ON author (isni) WHERE isni IS NOT NULL;
@@ -36,19 +38,20 @@ CREATE TABLE publisher
 CREATE SEQUENCE book_id_seq INCREMENT 1 START 1;
 CREATE TABLE book
 (
-    id             BIGINT      NOT NULL PRIMARY KEY DEFAULT nextval('book_id_seq'),
-    isbn           TEXT        NOT NULL UNIQUE,
-    title          TEXT        NOT NULL,
+    id             BIGINT  NOT NULL PRIMARY KEY DEFAULT nextval('book_id_seq'),
+    isbn           TEXT    NOT NULL UNIQUE,
+    title          TEXT    NOT NULL,
     description    TEXT,
-    format         TEXT        NOT NULL,
-    page_count     INTEGER     NOT NULL,
-    language_code  TEXT        NOT NULL,
+    edition        INTEGER                      DEFAULT 1,
+    format         TEXT    NOT NULL,
+    page_count     INTEGER NOT NULL,
+    language_code  TEXT    NOT NULL,
     image_url      TEXT,
-    price          NUMERIC     NOT NULL,
-    quantity       INTEGER     NOT NULL,
-    published_date TIMESTAMPTZ NOT NULL,
-    publisher_id   BIGINT      NOT NULL REFERENCES publisher (id) ON DELETE CASCADE,
-    genre_id       BIGINT      NOT NULL REFERENCES genre (id) ON DELETE CASCADE,
+    price          NUMERIC NOT NULL,
+    quantity       INTEGER NOT NULL,
+    published_date DATE    NOT NULL,
+    publisher_id   BIGINT  NOT NULL REFERENCES publisher (id) ON DELETE CASCADE,
+    genre_id       BIGINT  NOT NULL REFERENCES genre (id) ON DELETE CASCADE,
     CONSTRAINT chk_price CHECK (price >= 0),
     CONSTRAINT chk_quantity CHECK (quantity >= 0)
 );

@@ -2,6 +2,10 @@ package com.eli.bims.dao;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+
+import java.util.List;
 
 @Data
 @Entity(name = "publisher")
@@ -15,4 +19,9 @@ public class Publisher {
     private String name;
 
     private String description;
+
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @OneToMany(mappedBy = "publisher", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Book> books;
 }

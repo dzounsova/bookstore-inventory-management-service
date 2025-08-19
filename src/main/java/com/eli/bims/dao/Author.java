@@ -2,6 +2,8 @@ package com.eli.bims.dao;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import java.util.List;
 
@@ -26,6 +28,8 @@ public class Author {
 
     private String description;
 
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @ManyToMany(mappedBy = "authors")
     List<Book> books;
 }

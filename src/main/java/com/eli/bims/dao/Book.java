@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.time.OffsetDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -22,7 +22,10 @@ public class Book {
 
     private String description;
 
-    private String format;
+    private Integer edition;
+
+    @Enumerated(EnumType.STRING)
+    private BookFormat format;
 
     private Integer pageCount;
 
@@ -34,7 +37,7 @@ public class Book {
 
     private Integer quantity;
 
-    private OffsetDateTime publishedDate;
+    private LocalDate publishedDate;
 
     @ManyToOne
     @JoinColumn(name = "genre_id")
@@ -44,11 +47,11 @@ public class Book {
     @JoinColumn(name = "publisher_id")
     private Publisher publisher;
 
-    @ManyToMany(cascade = {CascadeType.ALL})
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-            name = "author",
-            joinColumns = {@JoinColumn(name = "author_id")},
-            inverseJoinColumns = {@JoinColumn(name = "book_id")}
+            name = "book_author",
+            joinColumns = {@JoinColumn(name = "book_id")},
+            inverseJoinColumns = {@JoinColumn(name = "author_id")}
     )
     private List<Author> authors;
 }
