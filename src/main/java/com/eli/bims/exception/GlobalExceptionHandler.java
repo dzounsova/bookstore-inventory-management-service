@@ -33,6 +33,11 @@ public class GlobalExceptionHandler {
         return handleException(ex, HttpStatus.FORBIDDEN, "Access Denied");
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ErrorResponse handleIllegalArgumentException(final IllegalArgumentException ex) {
+        return handleException(ex, HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
     @ExceptionHandler(Exception.class)
     public ErrorResponse handleGenericException(final Exception ex) {
         return handleException(ex, HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error");

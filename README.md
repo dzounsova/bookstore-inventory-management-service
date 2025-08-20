@@ -93,6 +93,36 @@ curl --location 'localhost:8080/books/search?page=0&size=2' \
 }'
 ```
 
+#### Purchase
+
+To buy books
+
+```
+curl --location 'localhost:8080/purchases/buy' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: Basic ••••••' \
+--data '[
+    {
+        "bookId": 1,
+        "quantity": 2
+    }
+]'
+```
+
+To return books
+
+```
+curl --location 'localhost:8080/purchases/cancel' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: Basic ••••••' \
+--data '[
+    {
+        "bookId": 1,
+        "quantity": 2
+    }
+]'
+```
+
 ## TODO
 
 - Introduce subgenres, when user searches by parent genre books of subgenre should be retrieved
@@ -100,3 +130,4 @@ curl --location 'localhost:8080/books/search?page=0&size=2' \
   formats, etc.)
 - Improve text search to compare unaccented values
 - Improve Security, the current implementation is with mocked in memory users
+- Improve purchase functionality to reserve items etc.

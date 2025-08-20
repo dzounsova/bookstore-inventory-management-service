@@ -1,10 +1,11 @@
-package com.eli.bims.service;
+package com.eli.bims.integration;
 
 import com.eli.bims.config.TestBase;
 import com.eli.bims.dao.*;
 import com.eli.bims.dto.request.CreateBookRequest;
 import com.eli.bims.dto.request.UpdateBookRequest;
 import com.eli.bims.repository.BookRepository;
+import com.eli.bims.service.BookService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ import java.util.Locale;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class BookServiceImplIntegrationTest extends TestBase {
+public class BookServiceIntegrationTest extends TestBase {
 
     @Autowired
     private BookService bookService;
