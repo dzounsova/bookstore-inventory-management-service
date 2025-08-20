@@ -100,7 +100,7 @@ To buy books
 ```
 curl --location 'localhost:8080/purchases/buy' \
 --header 'Content-Type: application/json' \
---header 'Authorization: Basic ••••••' \
+--header 'Authorization: ••••••' \
 --data '[
     {
         "bookId": 1,
@@ -114,7 +114,7 @@ To return books
 ```
 curl --location 'localhost:8080/purchases/cancel' \
 --header 'Content-Type: application/json' \
---header 'Authorization: Basic ••••••' \
+--header 'Authorization: ••••••' \
 --data '[
     {
         "bookId": 1,
